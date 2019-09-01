@@ -8,3 +8,5 @@ So my program, written in Perl simply patches a single byte to the program after
 Fun! Easy!
 
 Thought people would like to see what a masters degree subject offers and how simple patching a program can be.
+
+Oh and in fairness, this is NOT what you need to have a correct assignment, you have to illustrate steps and write your own psudocode. Sorry!

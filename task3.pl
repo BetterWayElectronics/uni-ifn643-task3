@@ -35,7 +35,7 @@ unless (-e "upx.exe") {
 	goto FAILURE;
 } 
 
-my %MD5_List;
+my %MD5_List; #Grab every MD5 of every .exe file within the current working directory
 my @MD5s = <*.exe>;
 foreach my $MD5s (@MD5s) {
    open( my $exe, '<:raw', $MD5s );
@@ -45,7 +45,7 @@ foreach my $MD5s (@MD5s) {
 my $filename;
 my $file;
 
-if (exists $MD5_List{"BF6D08BB51F3E672A5B0EA0C3782E228"}) { #UPX Packed Version
+if (exists $MD5_List{"BF6D08BB51F3E672A5B0EA0C3782E228"}) { #If the UPX packed (original) file exists unpack it and rename it.
 $filename = $MD5_List{"BF6D08BB51F3E672A5B0EA0C3782E228"};
 $file = substr($filename, 0, -4)."_unpacked.exe";
 
@@ -58,12 +58,12 @@ die "System failed to run @args: $?";
 } 
 }
 
-unless (exists $MD5_List{"BF6D08BB51F3E672A5B0EA0C3782E228"}) {
+unless (exists $MD5_List{"BF6D08BB51F3E672A5B0EA0C3782E228"}) { #If the UPX packed (original) file doesnt exist, give up.
 	print "\n$osdanger: Syndicate Systems Level 3 Application Not Found! Aborting...\n"; 
 	goto FAILURE;
 } 
 
-open(my $bin, "<", $file) or die $!; binmode $bin; #Open it in memory as $bin
+open(my $bin, "<", $file) or die $!; binmode $bin; #Open the unpacked program in memory as $bin
 
 print $clear_screen;
 print $BwE;
@@ -82,7 +82,7 @@ if ($input eq "1") {
 print $clear_screen;
 print $BwE;
 
-use Fcntl 'SEEK_SET';
+use Fcntl 'SEEK_SET'; #Seek to 0x12C6 and write '75' (JNE) in hex.
 my $fileminusexe = substr($file, 0, -4);
 my $PatchedFile = $fileminusexe."_patched.exe"; copy $file, $PatchedFile;
 open (my $PatchFile, '+<',$PatchedFile) or die $!; binmode($PatchFile);
@@ -104,7 +104,7 @@ print $BwE;
 print "\nEnter Username: ";
 my $username = <STDIN>; chomp $username; 
 
-if (length($username) < "7") {
+if (length($username) < "7") { #If the username is less than 7 characters, try again by returning to Username:
 	print "\nUsername must have a minimum 7 chars\n";
 	while (<>) {
 	chomp;
@@ -113,7 +113,7 @@ if (length($username) < "7") {
 	goto Username;
 	} else {
 
-print "Your generated password is: ";
+print "Your generated password is: "; #Run the caesar cipher immediately after!
 
     foreach my $symbol (split //, $username){
         if ($symbol =~ /[A-Za-z]/){
